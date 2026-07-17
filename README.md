@@ -24,7 +24,7 @@ Then install the grammar once:
 M-x go-template-ts-mode-install-grammar
 ```
 
-Files ending in `.gotmpl` automatically use `go-template-ts-mode`.
+Files ending in `.gotmpl` or `.tmpl` automatically use `go-template-ts-mode`.
 
 ## Polymode
 

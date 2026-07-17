@@ -244,7 +244,8 @@ The value has the same form as the cdr of an entry in
     (treesit-major-mode-setup)))
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.gotmpl\\'" . go-template-ts-mode))
+(add-to-list 'auto-mode-alist
+             '("\\.\\(?:gotmpl\\|tmpl\\)\\'" . go-template-ts-mode))
 
 (provide 'go-template-ts-mode)
 ;;; go-template-ts-mode.el ends here

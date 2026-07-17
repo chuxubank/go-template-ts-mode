@@ -5,6 +5,11 @@
 (require 'ert)
 (require 'go-template-ts-mode)
 
+(ert-deftest go-template-ts-mode-registers-template-file-patterns ()
+  (let ((pattern (car (rassq 'go-template-ts-mode auto-mode-alist))))
+    (should (string-match-p pattern "template.gotmpl"))
+    (should (string-match-p pattern "template.tmpl"))))
+
 (ert-deftest go-template-ts-mode-registers-grammar-source ()
   (should (equal (alist-get 'gotmpl treesit-language-source-alist)
                  go-template-ts-mode-grammar-source))
