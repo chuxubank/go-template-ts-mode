@@ -54,5 +54,16 @@
      (equal (buffer-string)
             "{{ define \"card\" }}\n  {{ if .Title }}\n    {{ .Title }}\n  {{ else }}\n    none\n  {{ end }}\n{{ end }}"))))
 
+(ert-deftest go-template-ts-mode-does-not-warn-for-incomplete-control-action ()
+  (skip-unless (treesit-ready-p 'gotmpl))
+  (let ((treesit-font-lock-level 4))
+    (with-temp-buffer
+      (insert "{{ if eq .chezmoi.os \"android\" -}}")
+      (go-template-ts-mode)
+      (font-lock-ensure)
+      (dotimes (offset (buffer-size))
+        (should-not (eq (get-text-property (1+ offset) 'face)
+                        'font-lock-warning-face))))))
+
 (provide 'go-template-ts-mode-test)
 ;;; go-template-ts-mode-test.el ends here

@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -189,12 +189,7 @@ The value has the same form as the cdr of an entry in
    :language 'gotmpl
    :feature 'delimiter
    :override t
-   '(["." ","] @font-lock-delimiter-face)
-
-   :language 'gotmpl
-   :feature 'error
-   :override t
-   '((ERROR) @font-lock-warning-face))
+   '(["." ","] @font-lock-delimiter-face))
   "Tree-sitter font-lock settings for `go-template-ts-mode'.")
 
 (defun go-template-ts-mode--defun-name (node)
@@ -239,7 +234,7 @@ The value has the same form as the cdr of an entry in
                 '((comment definition)
                   (keyword string)
                   (builtin constant escape-sequence number)
-                  (bracket delimiter error function operator property variable)))
+                  (bracket delimiter function operator property variable)))
 
     (treesit-major-mode-setup)))
 
