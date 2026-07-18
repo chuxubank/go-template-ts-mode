@@ -205,7 +205,7 @@ The value has the same form as the cdr of an entry in
   (treesit-install-language-grammar 'gotmpl))
 
 ;;;###autoload
-(define-derived-mode go-template-ts-mode prog-mode "Go-Template[TS]"
+(define-derived-mode go-template-ts-mode prog-mode "Go-Template"
   "Major mode for Go templates, powered by tree-sitter."
   :group 'go-template-ts
   :syntax-table go-template-ts-mode--syntax-table
