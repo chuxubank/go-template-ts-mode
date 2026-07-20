@@ -6,10 +6,9 @@
 [`gotmpl`](https://github.com/ngalaiko/tree-sitter-go-template) tree-sitter
 grammar.
 
-The default grammar source is pinned to commit
-`aa71f63de226c5592dfbfc1f29949522d7c95fac`. The upstream repository does not
-currently publish release tags, so the package uses a verified commit instead
-of tracking `master`.
+The default grammar source uses the upstream `master` branch. The upstream
+repository does not currently publish release tags; Emacs' built-in grammar
+installer accepts a branch or tag in this field, but not a bare commit SHA.
 
 The mode provides tree-sitter font locking, indentation, comments, defun
 navigation, Imenu entries for named templates and blocks, and optional

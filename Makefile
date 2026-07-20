@@ -5,7 +5,7 @@ LOAD_SETUP = --eval "(setq load-prefer-newer t)"
 GRAMMAR_DIR ?= $(CURDIR)/.tree-sitter
 GRAMMAR_SETUP = --eval "(add-to-list 'treesit-extra-load-path \"$(GRAMMAR_DIR)\")"
 GRAMMAR_URL = https://github.com/ngalaiko/tree-sitter-go-template
-GRAMMAR_REV = aa71f63de226c5592dfbfc1f29949522d7c95fac
+GRAMMAR_REV = master
 SOURCES = go-template-ts-mode.el go-template-ts-mode-treesit-fold.el
 TEST_SOURCES = test/go-template-ts-mode-test.el
 

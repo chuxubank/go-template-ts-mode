@@ -17,7 +17,7 @@
   (should
    (equal go-template-ts-mode-grammar-source
           '("https://github.com/ngalaiko/tree-sitter-go-template"
-            "aa71f63de226c5592dfbfc1f29949522d7c95fac")))
+            "master")))
   (should (equal (alist-get 'gotmpl treesit-language-source-alist)
                  go-template-ts-mode-grammar-source))
   (cl-letf (((symbol-function 'treesit-install-language-grammar)

@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.5
+;; Version: 0.1.6
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -42,7 +42,7 @@
 
 (defcustom go-template-ts-mode-grammar-source
   '("https://github.com/ngalaiko/tree-sitter-go-template"
-    "aa71f63de226c5592dfbfc1f29949522d7c95fac")
+    "master")
   "Source used to install the `gotmpl' tree-sitter grammar.
 The value has the same form as the cdr of an entry in
 `treesit-language-source-alist'."
