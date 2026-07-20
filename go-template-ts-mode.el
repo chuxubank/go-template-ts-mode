@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.4
+;; Version: 0.1.5
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -35,16 +35,20 @@
   :safe #'integerp
   :group 'go-template-ts)
 
+(defun go-template-ts-mode--set-grammar-source (symbol source)
+  "Set SYMBOL to SOURCE and register it for the `gotmpl' grammar."
+  (set-default symbol source)
+  (setf (alist-get 'gotmpl treesit-language-source-alist) source))
+
 (defcustom go-template-ts-mode-grammar-source
-  '("https://github.com/ngalaiko/tree-sitter-go-template")
+  '("https://github.com/ngalaiko/tree-sitter-go-template"
+    "aa71f63de226c5592dfbfc1f29949522d7c95fac")
   "Source used to install the `gotmpl' tree-sitter grammar.
 The value has the same form as the cdr of an entry in
 `treesit-language-source-alist'."
   :type '(repeat string)
+  :set #'go-template-ts-mode--set-grammar-source
   :group 'go-template-ts)
-
-(add-to-list 'treesit-language-source-alist
-             (cons 'gotmpl go-template-ts-mode-grammar-source))
 
 (defconst go-template-ts-mode--keywords
   '("block" "break" "continue" "define" "else" "end" "if" "range"
@@ -218,6 +222,8 @@ Keywords can be parsed as function identifiers in narrowed indirect buffers."
 (defun go-template-ts-mode-install-grammar ()
   "Install or update the `gotmpl' tree-sitter grammar."
   (interactive)
+  (setf (alist-get 'gotmpl treesit-language-source-alist)
+        go-template-ts-mode-grammar-source)
   (treesit-install-language-grammar 'gotmpl))
 
 ;;;###autoload

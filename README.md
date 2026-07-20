@@ -6,6 +6,11 @@
 [`gotmpl`](https://github.com/ngalaiko/tree-sitter-go-template) tree-sitter
 grammar.
 
+The default grammar source is pinned to commit
+`aa71f63de226c5592dfbfc1f29949522d7c95fac`. The upstream repository does not
+currently publish release tags, so the package uses a verified commit instead
+of tracking `master`.
+
 The mode provides tree-sitter font locking, indentation, comments, defun
 navigation, Imenu entries for named templates and blocks, and optional
 `treesit-fold` ranges. The folding integration loads automatically when
@@ -32,7 +37,7 @@ Files ending in `.gotmpl` or `.tmpl` automatically use `go-template-ts-mode`.
 
 For templates that should retain the host language's mode, such as
 `deployment.yaml.gotmpl`, use `poly-any-go-template` from
-[`cat-emacs`](https://github.com/chuxubank/cat-emacs).
+[`poly-any-template`](https://github.com/chuxubank/poly-any-template).
 
 ## License
 

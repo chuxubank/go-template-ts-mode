@@ -9,7 +9,8 @@
 ;;; Code:
 
 (require 'treesit)
-(require 'treesit-fold)
+
+(defvar treesit-fold-range-alist)
 
 (defun go-template-ts-mode-treesit-fold-range-action (node offset)
   "Return the fold range for Go-template action NODE using OFFSET."

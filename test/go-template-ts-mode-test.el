@@ -4,6 +4,8 @@
 
 (require 'ert)
 (require 'go-template-ts-mode)
+(eval-and-compile
+  (defvar treesit-fold-range-alist nil))
 (require 'go-template-ts-mode-treesit-fold)
 
 (ert-deftest go-template-ts-mode-registers-template-file-patterns ()
@@ -12,11 +14,53 @@
     (should (string-match-p pattern "template.tmpl"))))
 
 (ert-deftest go-template-ts-mode-registers-grammar-source ()
+  (should
+   (equal go-template-ts-mode-grammar-source
+          '("https://github.com/ngalaiko/tree-sitter-go-template"
+            "aa71f63de226c5592dfbfc1f29949522d7c95fac")))
   (should (equal (alist-get 'gotmpl treesit-language-source-alist)
                  go-template-ts-mode-grammar-source))
   (cl-letf (((symbol-function 'treesit-install-language-grammar)
              (lambda (language) language)))
     (should (eq (go-template-ts-mode-install-grammar) 'gotmpl))))
+
+(ert-deftest go-template-ts-mode-customizes-grammar-source-for-installation ()
+  (let ((original-source go-template-ts-mode-grammar-source)
+        (custom-source '("https://example.invalid/tree-sitter-go-template"
+                         "verified-revision"))
+        installed-source)
+    (unwind-protect
+        (progn
+          (setopt go-template-ts-mode-grammar-source custom-source)
+          (cl-letf (((symbol-function 'treesit-install-language-grammar)
+                     (lambda (language &rest _)
+                       (setq installed-source
+                             (alist-get language
+                                        treesit-language-source-alist)))))
+            (go-template-ts-mode-install-grammar))
+          (should (equal installed-source custom-source)))
+      (setopt go-template-ts-mode-grammar-source original-source))))
+
+(ert-deftest go-template-ts-mode-installs-grammar-source-set-with-setq ()
+  (let ((original-source go-template-ts-mode-grammar-source)
+        (original-registered-source
+         (alist-get 'gotmpl treesit-language-source-alist))
+        (custom-source '("https://example.invalid/tree-sitter-go-template"
+                         "setq-revision"))
+        installed-source)
+    (unwind-protect
+        (progn
+          (setq go-template-ts-mode-grammar-source custom-source)
+          (cl-letf (((symbol-function 'treesit-install-language-grammar)
+                     (lambda (language &rest _)
+                       (setq installed-source
+                             (alist-get language
+                                        treesit-language-source-alist)))))
+            (go-template-ts-mode-install-grammar))
+          (should (equal installed-source custom-source)))
+      (setq go-template-ts-mode-grammar-source original-source)
+      (setf (alist-get 'gotmpl treesit-language-source-alist)
+            original-registered-source))))
 
 (ert-deftest go-template-ts-mode-activates-without-installed-grammar ()
   (with-temp-buffer
