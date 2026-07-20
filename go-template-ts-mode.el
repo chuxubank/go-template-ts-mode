@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -53,6 +53,17 @@ The value has the same form as the cdr of an entry in
 (defconst go-template-ts-mode--builtins
   '("and" "call" "eq" "ge" "gt" "html" "index" "js" "le" "len" "lt"
     "ne" "not" "or" "print" "printf" "println" "slice" "urlquery"))
+
+(defun go-template-ts-mode--fontify-function-call
+    (node override start end &rest _)
+  "Fontify function-call NODE between START and END using OVERRIDE.
+Keywords can be parsed as function identifiers in narrowed indirect buffers."
+  (treesit-fontify-with-override
+   (treesit-node-start node) (treesit-node-end node)
+   (if (member (treesit-node-text node t) go-template-ts-mode--keywords)
+       'font-lock-keyword-face
+     'font-lock-function-call-face)
+   override start end))
 
 (defvar go-template-ts-mode--syntax-table
   (let ((table (make-syntax-table)))
@@ -138,7 +149,8 @@ The value has the same form as the cdr of an entry in
    :language 'gotmpl
    :feature 'function
    :override t
-   '((function_call function: (identifier) @font-lock-function-call-face)
+   '((function_call
+      function: (identifier) @go-template-ts-mode--fontify-function-call)
      (method_call method: (field (identifier) @font-lock-function-call-face))
      (method_call
       method: (selector_expression

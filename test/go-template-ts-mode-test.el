@@ -65,5 +65,22 @@
         (should-not (eq (get-text-property (1+ offset) 'face)
                         'font-lock-warning-face))))))
 
+(ert-deftest go-template-ts-mode-highlights-keywords-in-indirect-buffers ()
+  (skip-unless (treesit-ready-p 'gotmpl))
+  (let ((treesit-font-lock-level 4))
+    (with-temp-buffer
+      (insert "x{{ end }}y")
+      (let ((indirect (clone-indirect-buffer " *gotmpl-indirect*" nil)))
+        (unwind-protect
+            (with-current-buffer indirect
+              (narrow-to-region 2 11)
+              (go-template-ts-mode)
+              (font-lock-ensure)
+              (goto-char (point-min))
+              (search-forward "end")
+              (should (eq (get-text-property (1- (point)) 'face)
+                          'font-lock-keyword-face)))
+          (kill-buffer indirect))))))
+
 (provide 'go-template-ts-mode-test)
 ;;; go-template-ts-mode-test.el ends here
