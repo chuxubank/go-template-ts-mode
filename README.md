@@ -7,7 +7,9 @@
 grammar.
 
 The mode provides tree-sitter font locking, indentation, comments, defun
-navigation, and Imenu entries for named templates and blocks.
+navigation, Imenu entries for named templates and blocks, and optional
+`treesit-fold` ranges. The folding integration loads automatically when
+`treesit-fold` is available.
 
 ## Installation
 

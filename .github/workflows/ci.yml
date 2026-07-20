@@ -12,7 +12,5 @@ jobs:
       - uses: purcell/setup-emacs@master
         with:
           version: 30.2
-      - name: Byte compile
-        run: emacs -Q --batch -L . -f batch-byte-compile go-template-ts-mode.el
-      - name: Run tests
-        run: emacs -Q --batch -L . -L test -l go-template-ts-mode-test -f ert-run-tests-batch-and-exit
+      - name: Test
+        run: make

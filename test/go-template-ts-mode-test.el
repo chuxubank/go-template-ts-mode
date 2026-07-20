@@ -4,6 +4,7 @@
 
 (require 'ert)
 (require 'go-template-ts-mode)
+(require 'go-template-ts-mode-treesit-fold)
 
 (ert-deftest go-template-ts-mode-registers-template-file-patterns ()
   (let ((pattern (car (rassq 'go-template-ts-mode auto-mode-alist))))
@@ -101,6 +102,26 @@
               (should (eq (get-text-property (1- (point)) 'face)
                           'font-lock-function-call-face)))
           (kill-buffer indirect))))))
+
+(ert-deftest go-template-ts-mode-registers-treesit-fold-ranges ()
+  (let ((ranges (alist-get 'go-template-ts-mode treesit-fold-range-alist)))
+    (dolist (type '(if_action range_action with_action
+                    define_action block_action))
+      (should (eq (alist-get type ranges)
+                  #'go-template-ts-mode-treesit-fold-range-action)))))
+
+(ert-deftest go-template-ts-mode-computes-treesit-fold-range ()
+  (skip-unless (treesit-ready-p 'gotmpl))
+  (with-temp-buffer
+    (insert "{{ if .enabled }}\nbody\n{{ end }}")
+    (go-template-ts-mode)
+    (let* ((node (treesit-search-subtree
+                  (treesit-buffer-root-node 'gotmpl) "if_action"))
+           (range (go-template-ts-mode-treesit-fold-range-action
+                   node '(0 . 0))))
+      (should (equal (buffer-substring-no-properties
+                      (car range) (cdr range))
+                     "\nbody\n")))))
 
 (provide 'go-template-ts-mode-test)
 ;;; go-template-ts-mode-test.el ends here

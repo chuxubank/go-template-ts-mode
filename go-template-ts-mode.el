@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.3
+;; Version: 0.1.4
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -259,4 +259,8 @@ Keywords can be parsed as function identifiers in narrowed indirect buffers."
              '("\\.\\(?:gotmpl\\|tmpl\\)\\'" . go-template-ts-mode))
 
 (provide 'go-template-ts-mode)
+
+(with-eval-after-load 'treesit-fold
+  (require 'go-template-ts-mode-treesit-fold))
+
 ;;; go-template-ts-mode.el ends here
