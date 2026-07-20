@@ -19,7 +19,7 @@ install-grammar:
 		--eval "(require 'treesit)" \
 		$(GRAMMAR_SETUP) \
 		--eval "(add-to-list 'treesit-language-source-alist '(gotmpl \"$(GRAMMAR_URL)\" \"$(GRAMMAR_REV)\"))" \
-		--eval "(unless (treesit-language-available-p 'gotmpl) (treesit-install-language-grammar 'gotmpl \"$(GRAMMAR_DIR)\"))"
+		--eval "(unless (treesit-language-available-p 'gotmpl) (condition-case nil (treesit-install-language-grammar 'gotmpl \"$(GRAMMAR_DIR)\") (wrong-number-of-arguments (treesit-install-language-grammar 'gotmpl))))"
 
 compile:
 	$(BATCH) $(LOAD_PATH) $(LOAD_SETUP) \
