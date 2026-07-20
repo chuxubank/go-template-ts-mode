@@ -110,6 +110,18 @@
         (should-not (eq (get-text-property (1+ offset) 'face)
                         'font-lock-warning-face))))))
 
+(ert-deftest go-template-ts-mode-highlights-keywords-at-default-level ()
+  (skip-unless (treesit-ready-p 'gotmpl))
+  (let ((treesit-font-lock-level 3))
+    (with-temp-buffer
+      (insert "{{ end }}")
+      (go-template-ts-mode)
+      (font-lock-ensure)
+      (goto-char (point-min))
+      (search-forward "end")
+      (should (eq (get-text-property (1- (point)) 'face)
+                  'font-lock-keyword-face)))))
+
 (ert-deftest go-template-ts-mode-highlights-keywords-in-indirect-buffers ()
   (skip-unless (treesit-ready-p 'gotmpl))
   (let ((treesit-font-lock-level 4))

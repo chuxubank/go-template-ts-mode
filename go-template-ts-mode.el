@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.6
+;; Version: 0.1.7
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -129,7 +129,14 @@ Keywords can be parsed as function identifiers in narrowed indirect buffers."
    :language 'gotmpl
    :feature 'keyword
    :override t
-   `([,@go-template-ts-mode--keywords] @font-lock-keyword-face)
+   `(([,@go-template-ts-mode--keywords] @font-lock-keyword-face)
+     (function_call
+      function: ((identifier) @font-lock-keyword-face
+                 (:match ,(rx-to-string
+                           `(seq string-start
+                                 (or ,@go-template-ts-mode--keywords)
+                                 string-end))
+                         @font-lock-keyword-face))))
 
    :language 'gotmpl
    :feature 'builtin
