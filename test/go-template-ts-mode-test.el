@@ -82,5 +82,25 @@
                           'font-lock-keyword-face)))
           (kill-buffer indirect))))))
 
+(ert-deftest go-template-ts-mode-highlights-builtins-at-level-four ()
+  (skip-unless (treesit-ready-p 'gotmpl))
+  (let ((treesit-font-lock-level 4))
+    (with-temp-buffer
+      (insert "x{{ printf \"%s\" .Value }} {{ custom }}y")
+      (let ((indirect (clone-indirect-buffer " *gotmpl-indirect*" nil)))
+        (unwind-protect
+            (with-current-buffer indirect
+              (narrow-to-region 2 (1- (point-max)))
+              (go-template-ts-mode)
+              (font-lock-ensure)
+              (goto-char (point-min))
+              (search-forward "printf")
+              (should (eq (get-text-property (1- (point)) 'face)
+                          'font-lock-builtin-face))
+              (search-forward "custom")
+              (should (eq (get-text-property (1- (point)) 'face)
+                          'font-lock-function-call-face)))
+          (kill-buffer indirect))))))
+
 (provide 'go-template-ts-mode-test)
 ;;; go-template-ts-mode-test.el ends here

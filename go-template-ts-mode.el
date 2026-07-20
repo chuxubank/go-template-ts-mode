@@ -4,7 +4,7 @@
 
 ;; Author: Misaka <chuxubank@qq.com>
 ;; Maintainer: Misaka <chuxubank@qq.com>
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Package-Requires: ((emacs "29.1"))
 ;; Keywords: languages, go, templates, tree-sitter
 ;; URL: https://github.com/chuxubank/go-template-ts-mode
@@ -60,9 +60,13 @@ The value has the same form as the cdr of an entry in
 Keywords can be parsed as function identifiers in narrowed indirect buffers."
   (treesit-fontify-with-override
    (treesit-node-start node) (treesit-node-end node)
-   (if (member (treesit-node-text node t) go-template-ts-mode--keywords)
-       'font-lock-keyword-face
-     'font-lock-function-call-face)
+   (let ((name (treesit-node-text node t)))
+     (cond
+      ((member name go-template-ts-mode--keywords)
+       'font-lock-keyword-face)
+      ((member name go-template-ts-mode--builtins)
+       'font-lock-builtin-face)
+      (t 'font-lock-function-call-face)))
    override start end))
 
 (defvar go-template-ts-mode--syntax-table
